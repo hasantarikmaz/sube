@@ -14,6 +14,7 @@ class ExamApp {
         this.quizStartTime = null;
         this.quizTimeLimit = 0;
         this.selectedAnswer = null;
+        this.selectedExamId = 1; // Default to Exam 1
 
         this.init();
     }
@@ -52,7 +53,13 @@ class ExamApp {
         document.querySelectorAll('.back-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const back = e.currentTarget.dataset.back;
-                if (back) this.showView(back);
+                if (back) {
+                    // Reset quiz when going back from quiz view
+                    if (this.currentView === 'quiz') {
+                        this.resetQuiz();
+                    }
+                    this.showView(back);
+                }
             });
         });
 
@@ -136,6 +143,7 @@ class ExamApp {
         // Special handling for stats view
         if (viewName === 'stats') {
             this.renderStatsTopics();
+            this.renderExamHistory();
         }
     }
 
@@ -281,6 +289,50 @@ class ExamApp {
         grid.innerHTML = html;
     }
 
+    renderExamHistory() {
+        const grid = document.getElementById('examHistoryGrid');
+        const results = this.progress.quizResults || [];
+
+        if (results.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <div class="empty-state-text">Henüz sınav çözmediniz</div>
+                </div>
+            `;
+            return;
+        }
+
+        // Show last 10 results, newest first
+        const recentResults = [...results].reverse().slice(0, 10);
+
+        const html = recentResults.map(result => {
+            const examId = result.examId || 1;
+            const date = new Date(result.date);
+            const dateStr = date.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' });
+            const scoreClass = result.score >= 70 ? 'high' : result.score >= 50 ? 'medium' : 'low';
+            const mins = Math.floor(result.time / 60);
+            const secs = result.time % 60;
+
+            return `
+                <div class="exam-history-card">
+                    <div class="exam-history-header">
+                        <span class="exam-badge exam-${examId}">Sınav ${examId}</span>
+                        <span class="exam-history-date">${dateStr}</span>
+                    </div>
+                    <div class="exam-history-score ${scoreClass}">${result.score}%</div>
+                    <div class="exam-history-details">
+                        <span>✅ ${result.correct}</span>
+                        <span>❌ ${result.wrong}</span>
+                        <span>⏱️ ${mins}:${secs.toString().padStart(2, '0')}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        grid.innerHTML = html;
+    }
+
     populateQuizTopics() {
         const select = document.getElementById('quizTopicSelect');
         examData.topics.forEach(topic => {
@@ -365,20 +417,26 @@ class ExamApp {
 
     // Quiz
     startQuiz() {
+        const examId = parseInt(document.getElementById('quizExamSelect').value);
         const topicId = document.getElementById('quizTopicSelect').value;
         const count = parseInt(document.getElementById('quizCountSelect').value);
         const time = parseInt(document.getElementById('quizTimeSelect').value);
 
+        this.selectedExamId = examId;
+
+        // Get topics based on selected exam
+        const currentTopics = examId === 2 ? exam2Topics : examData.topics;
+
         // Collect questions
         let questions = [];
         if (topicId === 'all') {
-            examData.topics.forEach(topic => {
+            currentTopics.forEach(topic => {
                 topic.questions.forEach(q => {
                     questions.push({ ...q, topicId: topic.id, topicName: topic.name });
                 });
             });
         } else {
-            const topic = examData.topics.find(t => t.id === parseInt(topicId));
+            const topic = currentTopics.find(t => t.id === parseInt(topicId));
             if (topic) {
                 topic.questions.forEach(q => {
                     questions.push({ ...q, topicId: topic.id, topicName: topic.name });
@@ -544,7 +602,8 @@ class ExamApp {
             topicId: document.getElementById('quizTopicSelect').value === 'all'
                 ? 'all'
                 : parseInt(document.getElementById('quizTopicSelect').value),
-            time: elapsed
+            time: elapsed,
+            examId: this.selectedExamId
         });
         saveProgress(this.progress);
 
@@ -580,11 +639,30 @@ class ExamApp {
     }
 
     resetQuiz() {
+        // Stop timer
+        if (this.quizTimer) {
+            clearInterval(this.quizTimer);
+            this.quizTimer = null;
+        }
+
+        // Reset quiz state
+        this.quizQuestions = [];
+        this.quizIndex = 0;
+        this.quizScore = { correct: 0, wrong: 0 };
+        this.quizStartTime = null;
+        this.quizTimeLimit = 0;
+        this.selectedAnswer = null;
+
+        // Reset UI counters
+        document.getElementById('quizCorrect').textContent = '0';
+        document.getElementById('quizWrong').textContent = '0';
+        document.getElementById('quizCurrentQ').textContent = '1';
+        document.getElementById('quizTimer').textContent = '--:--';
+
+        // Reset views
         document.getElementById('quizContainer').style.display = 'none';
         document.getElementById('quizResults').style.display = 'none';
         document.getElementById('quizStart').style.display = 'block';
-
-        if (this.quizTimer) clearInterval(this.quizTimer);
     }
 }
 
