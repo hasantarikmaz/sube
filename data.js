@@ -1,4 +1,4 @@
-// Şube Müdürlüğü Sınav Hazırlık - Veri Dosyası
+﻿// Şube Müdürlüğü Sınav Hazırlık - Veri Dosyası
 // Gerçek 2018 ve 2023 sınav sorularından esinlenerek hazırlanmış ZOR soru bankası
 // Soru dağılımı: MEB Görevde Yükselme Sınavı resmi dağılımına göre (Toplam 60 soru)
 
@@ -19,7 +19,7 @@ const examData = {
             questions: [
                 { q: "Dil, insanlar arasında anlaşmayı sağlayan, düşünce ve duyguların aktarılmasına imkân veren bir araçtır. Dilin bu özelliği onun hangi işlevini gösterir?", options: ["Kültür taşıyıcılığı işlevi", "İletişim işlevi", "Düşünceyi geliştirme işlevi", "Millet oluşturma işlevi"], answer: 1 },
                 { q: "'Sabahleyin erkenden kalktı, kahvaltısını yaptı, işe gitmek için evden çıktı.' cümlesindeki fiillerin ortak özelliği aşağıdakilerden hangisidir?", options: ["Hepsi geçişli fiildir.", "Hepsi bildirme kipindedir.", "Hepsi belirli geçmiş zamandadır.", "Hepsi çatı bakımından etkendir."], answer: 2 },
-                { q: "'Öğretmenimiz, öğrencilerin başarılı olması için çok çalıştığını söyledi.' cümlesinde altı çizili söz öbeği cümlenin hangi öğesidir?", options: ["Özne", "Belirtili nesne", "Zarf tümleci", "Dolaylı tümleç"], answer: 1 },
+                { q: "'Öğretmenimiz, <u>öğrencilerin başarılı olması için çok çalıştığını</u> söyledi.' cümlesinde altı çizili söz öbeği cümlenin hangi öğesidir?", options: ["Özne", "Belirtili nesne", "Zarf tümleci", "Dolaylı tümleç"], answer: 1 },
                 { q: "Aşağıdaki cümlelerin hangisinde hem belirtili isim tamlaması hem de sıfat tamlaması bir arada kullanılmıştır?", options: ["Bahçedeki ağaçlar meyve vermeye başladı.", "Annemin yaptığı güzel yemekleri özledim.", "Öğrenciler sınav sorularını çözdü.", "Yolda gördüğüm adam tanıdık geldi."], answer: 1 },
                 { q: "'Bu konuda uzman kişilerin görüşleri alınmalı, kararlar aceleye getirilmeden verilmelidir.' cümlesiyle ilgili aşağıdakilerden hangisi doğrudur?", options: ["Basit cümledir.", "Bağımlı sıralı cümledir.", "Bağımsız sıralı cümledir.", "Birleşik cümledir."], answer: 2 }
             ]
@@ -348,7 +348,7 @@ const examData = {
 // İlerleme takibi için veri yapısı
 const initialProgress = {
     flashcardsStudied: {},
-    quizResults: {},
+    quizResults: [],
     totalStudyTime: 0,
     lastStudyDate: null,
     dailyStreak: 0
@@ -356,13 +356,34 @@ const initialProgress = {
 
 // LocalStorage'dan ilerleme yükle veya başlangıç değerlerini kullan
 function loadProgress() {
-    const saved = localStorage.getItem('subeExamProgress');
-    return saved ? JSON.parse(saved) : initialProgress;
+    try {
+        const saved = localStorage.getItem('subeExamProgress');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            // Eksik alanları tamamla
+            return {
+                flashcardsStudied: parsed.flashcardsStudied || {},
+                quizResults: parsed.quizResults || [],
+                totalStudyTime: parsed.totalStudyTime || 0,
+                lastStudyDate: parsed.lastStudyDate || null,
+                dailyStreak: parsed.dailyStreak || 0
+            };
+        }
+        return { ...initialProgress };
+    } catch (error) {
+        console.error('İlerleme yüklenirken hata:', error);
+        return { ...initialProgress };
+    }
 }
 
 // İlerlemeyi kaydet
 function saveProgress(progress) {
-    localStorage.setItem('subeExamProgress', JSON.stringify(progress));
+    try {
+        localStorage.setItem('subeExamProgress', JSON.stringify(progress));
+        console.log('İlerleme kaydedildi');
+    } catch (error) {
+        console.error('İlerleme kaydedilirken hata:', error);
+    }
 }
 
 // Dışa aktar

@@ -1,4 +1,4 @@
-// Şube Müdürlüğü Sınav Hazırlık - Sınav 2 Veri Dosyası
+﻿// Şube Müdürlüğü Sınav Hazırlık - Sınav 2 Veri Dosyası
 // Gerçek sınav seviyesinde hazırlanmış ZOR soru bankası
 // Soru dağılımı: MEB Görevde Yükselme Sınavı resmi dağılımına göre (Toplam 60 soru)
 
@@ -10,7 +10,7 @@ const exam2Topics = [
         icon: "📖",
         flashcards: [],
         questions: [
-            { q: "'Sabah erken kalkan öğrenciler derslerine daha iyi hazırlanır.' cümlesinde altı çizili sözcüğün türü aşağıdakilerden hangisidir?", options: ["Sıfat-fiil (ortaç)", "Zarf-fiil (ulaç)", "İsim-fiil (mastar)", "Bileşik fiil", "Yardımcı fiil"], answer: 0 },
+            { q: "'Sabah <u>erken kalkan</u> öğrenciler derslerine daha iyi hazırlanır.' cümlesinde altı çizili sözcüğün türü aşağıdakilerden hangisidir?", options: ["Sıfat-fiil (ortaç)", "Zarf-fiil (ulaç)", "İsim-fiil (mastar)", "Bileşik fiil", "Yardımcı fiil"], answer: 0 },
             { q: "'Öğretmenler, öğrencilerin başarılarıyla gurur duyar.' cümlesindeki tamlama türü aşağıdakilerden hangisidir?", options: ["Zincirleme isim tamlaması", "Belirtisiz isim tamlaması", "Takısız isim tamlaması", "Sıfat tamlaması", "Belirtili isim tamlaması"], answer: 4 },
             { q: "Aşağıdaki cümlelerin hangisinde nesne eksikliğinden kaynaklanan bir anlatım bozukluğu vardır?", options: ["Kitabı okudum ve çok beğendim.", "Arkadaşımı aradım ve durumu anlattım.", "Bu konuyu tartıştık ve sonuca ulaştık.", "Haberi aldık ve hemen yola çıktık.", "Onu gördüm ancak tanıyamadım."], answer: 2 },
             { q: "'Ne güzel bir gündü, herkes mutluydu, kuşlar ötüyordu.' cümlesi yapısına göre nasıl bir cümledir?", options: ["Basit cümle", "Bileşik cümle", "Girişik bileşik cümle", "Bağımsız sıralı cümle", "Bağımlı sıralı cümle"], answer: 3 },

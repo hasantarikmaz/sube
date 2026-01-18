@@ -520,7 +520,8 @@ class ExamApp {
         document.getElementById('questionNumber').textContent =
             `Soru ${this.quizIndex + 1} / ${this.quizQuestions.length}`;
         document.getElementById('quizCurrentQ').textContent = this.quizIndex + 1;
-        document.getElementById('questionText').textContent = question.q;
+        // innerHTML kullanarak HTML etiketlerini (altı çizili vb.) göster
+        document.getElementById('questionText').innerHTML = question.q;
 
         // Render options
         const optionsList = document.getElementById('optionsList');
