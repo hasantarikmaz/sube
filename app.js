@@ -425,7 +425,14 @@ class ExamApp {
         this.selectedExamId = examId;
 
         // Get topics based on selected exam
-        const currentTopics = examId === 2 ? exam2Topics : examData.topics;
+        let currentTopics;
+        if (examId === 3) {
+            currentTopics = exam3Topics;
+        } else if (examId === 2) {
+            currentTopics = exam2Topics;
+        } else {
+            currentTopics = examData.topics;
+        }
 
         // Collect questions
         let questions = [];
