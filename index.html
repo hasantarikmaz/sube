@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Şube Müdürlüğü sınavına hazırlık uygulaması - Konu kartları, quiz ve ilerleme takibi">
+    <meta name="description"
+        content="Şube Müdürlüğü sınavına hazırlık uygulaması - Konu kartları, quiz ve ilerleme takibi">
     <title>Şube Müdürlüğü Sınav Hazırlık</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Background Gradient -->
     <div class="bg-gradient"></div>
-    
+
     <!-- Mobile Menu Toggle -->
     <button class="mobile-menu-toggle" id="menuToggle" aria-label="Menü">
         ☰
     </button>
-    
+
     <!-- Sidebar Overlay (Mobile) -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    
+
     <!-- App Container -->
     <div class="app-container">
         <!-- Sidebar -->
@@ -36,7 +39,7 @@
                     <span>Şube Müdürlüğü</span>
                 </div>
             </div>
-            
+
             <!-- Progress Card -->
             <div class="progress-card">
                 <div class="progress-header">
@@ -47,7 +50,7 @@
                     <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
             </div>
-            
+
             <!-- Navigation -->
             <nav class="nav-section">
                 <div class="nav-title">Ana Menü</div>
@@ -83,14 +86,14 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <div class="nav-title" style="margin-top: 1.5rem;">Hızlı Erişim</div>
                 <ul class="nav-list" id="topicsList">
                     <!-- Konular dinamik olarak yüklenecek -->
                 </ul>
             </nav>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="main-content">
             <!-- Dashboard View -->
@@ -99,7 +102,7 @@
                     <h1 class="page-title">Hoş Geldiniz! 👋</h1>
                     <p class="page-subtitle">Şube Müdürlüğü sınavına hazırlanın</p>
                 </header>
-                
+
                 <!-- Stats Grid -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -123,7 +126,7 @@
                         <div class="stat-label">Başarı Oranı</div>
                     </div>
                 </div>
-                
+
                 <!-- Mode Selection -->
                 <h3 class="section-title">📌 Çalışmaya Başla</h3>
                 <div class="mode-buttons">
@@ -143,14 +146,14 @@
                         <div class="mode-btn-desc">60 soruluk tam sınav</div>
                     </div>
                 </div>
-                
+
                 <!-- Recent Topics -->
                 <h3 class="section-title">📖 Tüm Konular</h3>
                 <div class="topics-grid" id="topicsGrid">
                     <!-- Konular dinamik olarak yüklenecek -->
                 </div>
             </div>
-            
+
             <!-- Topics View -->
             <div class="view-container" id="topicsView">
                 <button class="back-btn" data-back="dashboard">
@@ -164,7 +167,7 @@
                     <!-- Konular dinamik olarak yüklenecek -->
                 </div>
             </div>
-            
+
             <!-- Flashcards View -->
             <div class="view-container" id="flashcardsView">
                 <button class="back-btn" data-back="dashboard">
@@ -174,7 +177,7 @@
                     <h2 class="page-title" id="flashcardTopicTitle">Konu Kartları</h2>
                     <p class="page-subtitle" id="flashcardTopicDesc">Kartın üzerine tıklayarak cevabı görün</p>
                 </header>
-                
+
                 <div class="flashcard-container">
                     <div class="flashcard-progress">
                         <div class="flashcard-counter">
@@ -184,7 +187,7 @@
                             <div class="progress-fill" id="flashcardProgressFill" style="width: 0%"></div>
                         </div>
                     </div>
-                    
+
                     <div class="flashcard-wrapper">
                         <div class="flashcard" id="flashcard">
                             <div class="flashcard-face flashcard-front">
@@ -202,7 +205,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="flashcard-actions">
                         <button class="action-btn repeat" id="btnRepeat">
                             🔄 Tekrar Et
@@ -213,21 +216,29 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Quiz View -->
             <div class="view-container" id="quizView">
                 <button class="back-btn" data-back="dashboard">
                     ← Ana Sayfa
                 </button>
-                
+
                 <!-- Quiz Start Screen -->
                 <div class="quiz-start" id="quizStart">
                     <div class="quiz-start-card">
                         <div class="quiz-start-icon">📝</div>
                         <h2 class="quiz-start-title">Quiz Başlat</h2>
                         <p class="quiz-start-desc">Ayarlarınızı seçin ve teste başlayın</p>
-                        
+
                         <div class="quiz-options">
+                            <div class="quiz-option-group">
+                                <span class="quiz-option-label">Sınav Seti</span>
+                                <select class="quiz-option-select" id="quizExamSelect">
+                                    <option value="1">Deneme Sınavı 1</option>
+                                    <option value="2">Deneme Sınavı 2</option>
+                                    <option value="3">Deneme Sınavı 3 (Zor)</option>
+                                </select>
+                            </div>
                             <div class="quiz-option-group">
                                 <span class="quiz-option-label">Konu</span>
                                 <select class="quiz-option-select" id="quizTopicSelect">
@@ -255,13 +266,13 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <button class="start-quiz-btn" id="startQuizBtn">
                             🚀 Quiz'i Başlat
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Quiz Questions -->
                 <div class="quiz-container" id="quizContainer" style="display: none;">
                     <div class="quiz-header">
@@ -281,18 +292,18 @@
                         </div>
                         <div class="quiz-timer" id="quizTimer">--:--</div>
                     </div>
-                    
+
                     <div class="question-card">
                         <div class="question-number" id="questionNumber">Soru 1 / 10</div>
                         <div class="question-text" id="questionText">
                             Soru yükleniyor...
                         </div>
-                        
+
                         <div class="options-list" id="optionsList">
                             <!-- Seçenekler dinamik olarak yüklenecek -->
                         </div>
                     </div>
-                    
+
                     <div class="quiz-nav">
                         <button class="quiz-btn secondary" id="skipBtn">
                             Geç →
@@ -302,14 +313,14 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Quiz Results -->
                 <div class="results-container" id="quizResults" style="display: none;">
                     <div class="results-card">
                         <div class="results-icon" id="resultsIcon">🎉</div>
                         <h2 class="results-title" id="resultsTitle">Quiz Tamamlandı!</h2>
                         <div class="results-score" id="resultsScore">0%</div>
-                        
+
                         <div class="results-stats">
                             <div class="result-stat">
                                 <div class="result-stat-value correct" id="resultCorrect">0</div>
@@ -325,7 +336,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="quiz-nav">
                         <button class="quiz-btn secondary" id="reviewBtn">
                             📋 Soruları İncele
@@ -336,7 +347,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Stats View -->
             <div class="view-container" id="statsView">
                 <button class="back-btn" data-back="dashboard">
@@ -346,7 +357,7 @@
                     <h1 class="page-title">📊 İstatistikler</h1>
                     <p class="page-subtitle">Çalışma ilerlemenizi takip edin</p>
                 </header>
-                
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon purple">📚</div>
@@ -369,7 +380,12 @@
                         <div class="stat-label">Ortalama Başarı</div>
                     </div>
                 </div>
-                
+
+                <h3 class="section-title">📊 Sınav Geçmişi</h3>
+                <div class="exam-history-grid" id="examHistoryGrid">
+                    <!-- Sınav geçmişi dinamik olarak yüklenecek -->
+                </div>
+
                 <h3 class="section-title">📈 Konu Bazlı Başarı</h3>
                 <div class="topics-grid" id="statsTopicsGrid">
                     <!-- Konu istatistikleri dinamik olarak yüklenecek -->
@@ -377,9 +393,11 @@
             </div>
         </main>
     </div>
-    
-    <!-- Scripts -->
+
     <script src="data.js"></script>
+    <script src="data2.js"></script>
+    <script src="data3.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
