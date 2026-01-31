@@ -426,7 +426,9 @@ class ExamApp {
 
         // Get topics based on selected exam
         let currentTopics;
-        if (examId === 3) {
+        if (examId === 4) {
+            currentTopics = examData4.topics;
+        } else if (examId === 3) {
             currentTopics = exam3Topics;
         } else if (examId === 2) {
             currentTopics = exam2Topics;
